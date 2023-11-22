@@ -1,0 +1,50 @@
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
+
+public interface IncidenteRepository extends JpaRepository<Incidente, Long> {
+    List<Incidente> findByTécnicoAsignadoAndResueltoIsTrueAndFechaResolucionAfter(Date fechaLimite);
+
+    List<Incidente> findByTécnicoAsignado_EspecialidadesAndResueltoIsTrueAndFechaResolucionAfter(
+            String especialidad, Date fechaLimite);
+
+    @Query("SELECT i.técnicoAsignado, AVG(i.tiempoResolucion) as tiempoPromedio " +
+            "FROM Incidente i WHERE i.resuelto = true GROUP BY i.técnicoAsignado " +
+            "ORDER BY tiempoPromedio ASC")
+    List<Object[]> findTécnicoConMenorTiempoPromedioResolucion();
+}
+
+public interface TécnicoService {
+    List<Object[]> encontrarTécnicoConMásIncidentesResueltosEnÚltimosNDías(int n);
+
+    List<Object[]> encontrarTécnicoConMásIncidentesResueltosDeEspecialidadEnÚltimosNDías(String especialidad, int n);
+
+    List<Object[]> encontrarTécnicoConMenorTiempoPromedioResolucion();
+}
+
+@Service
+public class TécnicoServiceImpl implements TécnicoService {
+
+    @Autowired
+    private IncidenteRepository incidenteRepository;
+
+    @Override
+    public List<Object[]> encontrarTécnicoConMásIncidentesResueltosEnÚltimosNDías(int n) {
+        // Implementación según los requisitos
+        // Utiliza incidenteRepository para acceder a la base de datos
+    }
+
+    @Override
+    public List<Object[]> encontrarTécnicoConMásIncidentesResueltosDeEspecialidadEnÚltimosNDías(String especialidad, int n) {
+        // Implementación según los requisitos
+        // Utiliza incidenteRepository para acceder a la base de datos
+    }
+
+    @Override
+    public List<Object[]> encontrarTécnicoConMenorTiempoPromedioResolucion() {
+        // Implementación según los requisitos
+        // Utiliza incidenteRepository para acceder a la base de datos
+    }
+}
